@@ -25,6 +25,7 @@
     "@nestjs/core": "^6.7.2",
     "@nestjs/platform-express": "^6.7.2",
     "@nestjs/typeorm": "^7.1.5",
+    "class-validator": "^0.13.1",
     "pg": "^8.5.1",
     "postgres": "^1.0.2",
     "reflect-metadata": "^0.1.13",
