@@ -19,7 +19,6 @@ export class AuthController {
   async login(
     @Body() userLoginData: UserLoginDto,
   ): Promise<{ email: string; accessToken: string }> {
-    console.log(userLoginData);
     const user = await this.authService.authenticateUser(userLoginData);
     return user;
   }

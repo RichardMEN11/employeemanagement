@@ -42,8 +42,6 @@ export class AuthService {
   }: UserLoginDto): Promise<{ email: string; accessToken: string }> {
     const user = await this.userService.findOneByMail(email);
 
-    console.log(user);
-
     if (!user) {
       throw new UserNotFoundException();
     }
