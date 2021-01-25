@@ -28,7 +28,7 @@ import { EmployeesModule } from './employees/employees.module';
     AuthModule,
     EmployeesModule,
   ],
-  controllers: [EmployeesController],
-  providers: [EmployeesService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
