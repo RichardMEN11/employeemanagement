@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserRegisterDto } from '../auth/dto/UserRegisterDto';
 import { UserRepository } from './user.repository';
-import { FindConditions } from 'typeorm';
 import { UserEntity } from './user.entity';
 
 @Injectable()

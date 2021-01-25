@@ -1,5 +1,6 @@
 import { AbstractEntity } from 'src/common/abstract.entity';
 import { Column, Entity } from 'typeorm';
+import { ForeignKeyMetadata } from 'typeorm/metadata/ForeignKeyMetadata';
 import { UserDto } from './dto/User.dto';
 
 @Entity({ name: 'users' })
