@@ -1,4 +1,4 @@
-import { AbstractDto } from 'src/common/dto/AbstractDto';
+import { AbstractDto } from 'src/common/dto/abstractDto';
 import { UserEntity } from '../user.entity';
 
 export class UserDto extends AbstractDto {

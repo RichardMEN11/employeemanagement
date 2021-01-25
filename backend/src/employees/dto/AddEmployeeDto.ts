@@ -1,5 +1,5 @@
 import { IsEmail, IsString } from 'class-validator';
-import { AbstractDto } from 'src/common/dto/AbstractDto';
+import { AbstractDto } from 'src/common/dto/abstractDto';
 
 export class AddEmployeeDto extends AbstractDto {
   @IsString()

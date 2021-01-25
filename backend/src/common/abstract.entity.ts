@@ -3,7 +3,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { AbstractDto } from './dto/AbstractDto';
+import { AbstractDto } from './dto/abstractDto';
 
 export abstract class AbstractEntity<T extends AbstractDto = AbstractDto> {
   @PrimaryGeneratedColumn('uuid')
