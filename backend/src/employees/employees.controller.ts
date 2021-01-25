@@ -6,11 +6,14 @@ import {
   Param,
   Delete,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { AddEmployeeDto } from './dto/AddEmployeeDto';
 import { EmployeesService } from './employees.service';
 
 @Controller('employees')
+@UseGuards(AuthGuard())
 export class EmployeesController {
   constructor(public readonly employeeService: EmployeesService) {}
 
