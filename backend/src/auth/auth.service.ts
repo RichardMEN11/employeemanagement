@@ -39,7 +39,11 @@ export class AuthService {
   public async authenticateUser({
     email,
     password,
-  }: UserLoginDto): Promise<{ email: string; accessToken: string }> {
+  }: UserLoginDto): Promise<{
+    id: string;
+    email: string;
+    accessToken: string;
+  }> {
     const user = await this.userService.findOneByMail(email);
 
     if (!user) {
@@ -58,6 +62,6 @@ export class AuthService {
 
     const accessToken = await this.jwtService.sign(payload);
 
-    return { email, accessToken };
+    return { id: user.id, email, accessToken };
   }
 }
