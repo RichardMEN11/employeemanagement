@@ -1,7 +1,9 @@
+import { AbstractEntity } from 'src/common/abstract.entity';
 import { Column, Entity } from 'typeorm';
+import { UserDto } from './dto/User.dto';
 
 @Entity({ name: 'users' })
-export class UserEntity {
+export class UserEntity extends AbstractEntity<UserDto> {
   @Column({ nullable: true })
   company: string;
 
@@ -10,4 +12,6 @@ export class UserEntity {
 
   @Column({ nullable: true })
   password: string;
+
+  dtoClass = UserDto;
 }

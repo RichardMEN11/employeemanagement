@@ -3,8 +3,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { AbstractDto } from './dto/AbstractDto';
 
-export abstract class AbstractEntity<T> {
+export abstract class AbstractEntity<T extends AbstractDto = AbstractDto> {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -19,4 +20,6 @@ export abstract class AbstractEntity<T> {
     name: 'updated_at',
   })
   updatedAt: Date;
+
+  abstract dtoClass: new (entity: AbstractEntity, options?: any) => T;
 }
