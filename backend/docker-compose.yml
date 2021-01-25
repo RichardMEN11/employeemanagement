@@ -9,19 +9,41 @@ services:
       - docker.env
     networks:
       - postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
-  pgadmin:
-    links:
-      - postgres:postgres
-    container_name: pgadmin
-    image: dpage/pgadmin4
+  backend:
+    container_name: backend
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
-      - '8080:80'
+      - '3000:3000'
+    command: yarn run start:dev
     env_file:
-      - docker.env
+      - .env
     networks:
       - postgres
+    depends_on:
+      - postgres
+
+  # pgadmin:
+  #   links:
+  #     - postgres:postgres
+  #   container_name: pgadmin
+  #   image: dpage/pgadmin4
+  #   ports:
+  #     - '8080:80'
+  #   env_file:
+  #     - docker.env
+  #   networks:
+  #     - postgres
 
 networks:
   postgres:
     driver: bridge
+volumes:
+  pgdata:
