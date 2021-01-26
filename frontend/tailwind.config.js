@@ -6,7 +6,7 @@ module.exports = {
       colors: {
         nanoBlue: '#19194A',
         giantRed: '#D90855',
-        mircoBlue: '#EEF2F6',
+        microBlue: '#EEF2F6',
         rapidGrey: '#9E9E9E',
         slowGrey: '#EFEFEF',
       },
