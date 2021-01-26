@@ -28,7 +28,8 @@ h4,
 h5,
 input[type='submit'],
 p,
-a {
+a,
+button {
   font-family: roc-grotesk, sans-serif;
   font-weight: 500;
   font-style: normal;
