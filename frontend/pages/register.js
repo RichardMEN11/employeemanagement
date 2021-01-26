@@ -31,7 +31,7 @@ const Register = () => {
           <input
             type="submit"
             value="Einloggen"
-            class="bg-giantRed text-white w-full py-3 px-3 rounded mt-7 pointer"
+            className="bg-giantRed text-white w-full py-3 px-3 rounded mt-7 pointer"
           />
         </form>
         <div className="flex-row text-center justify-center items-center mt-20 text-nanoBlue">
