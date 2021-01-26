@@ -1,33 +1,127 @@
 import Link from 'next/link';
+import { useFormik } from 'formik';
+import { useRouter } from 'next/router';
+import axios from 'axios';
+
+const validate = (values) => {
+  const errors = {};
+
+  if (!values.email) {
+    errors.email = 'Required';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address';
+  }
+
+  if (!values.company) {
+    errors.email = 'Required';
+  }
+
+  if (!values.password) {
+    errors.email = 'Required';
+  } else if (values.password !== values.passwordRepeat) {
+    errors.password = 'Passwörter stimmen nicht überein';
+  }
+
+  if (!values.passwordRepeat) {
+    errors.email = 'Required';
+  } else if (values.password !== values.passwordRepeat) {
+    errors.password = 'Passwörter stimmen nicht überein';
+  }
+  return errors;
+};
 
 const Register = () => {
+  const router = useRouter();
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      company: '',
+      password: '',
+      passwordRepeat: '',
+    },
+    validate,
+    onSubmit: (values) => {
+      register(values);
+    },
+  });
+
+  const register = async (values) => {
+    const { email, company, password } = values;
+    const resp = await axios.post('http://localhost:3000/auth/register', {
+      email,
+      company,
+      password,
+    });
+    if (resp.status === 201) {
+      router.push('/');
+    }
+  };
+
   return (
     <div className="container w-screen h-screen flex justify-center items-center">
       <section className="flex-row">
         <h1 className="text-4xl text-center mb-10 text-nanoBlue">
           Account erstellen
         </h1>
-        <form className="w-6/12 mx-auto">
-          <input
-            type="email"
-            placeholder="E-Mail-Adresse"
-            className="border-gray-100 border-2 rounded py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full my-4"
-          />
-          <input
-            type="email"
-            placeholder="Name der Firma"
-            className="border-gray-100 border-2 rounded py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full my-4"
-          />
-          <input
-            type="password"
-            placeholder="Passwort"
-            className="border-gray-100 border-2 rounded py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full my-4"
-          />
-          <input
-            type="password"
-            placeholder="Passwort wiederholen"
-            className="border-gray-100 border-2 rounded py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full my-4"
-          />
+        <form className="w-80 mx-auto" onSubmit={formik.handleSubmit}>
+          <div className="my-4">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="E-Mail-Adresse"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              className="border-gray-100 border-2 rounded py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+            />
+            {formik.errors.email ? (
+              <div className="text-giantRed">{formik.errors.email}</div>
+            ) : null}
+          </div>
+          <div className="my-4">
+            <input
+              type="text"
+              placeholder="Name der Firma"
+              id="company"
+              name="company"
+              value={formik.values.company}
+              onChange={formik.handleChange}
+              className="border-gray-100 border-2 rounded py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+            />
+            {formik.errors.company ? (
+              <div className="text-giantRed">{formik.errors.company}</div>
+            ) : null}
+          </div>
+          <div className="my-4">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              placeholder="Passwort"
+              className="border-gray-100 border-2 rounded py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+            />
+            {formik.errors.password ? (
+              <div className="text-giantRed">{formik.errors.password}</div>
+            ) : null}
+          </div>
+          <div className="my-4">
+            <input
+              type="password"
+              name="passwordRepeat"
+              id="passwordRepeat"
+              value={formik.values.passwordRepeat}
+              onChange={formik.handleChange}
+              placeholder="Passwort wiederholen"
+              className="border-gray-100 border-2 rounded py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+            />
+            {formik.errors.passwordRepeat ? (
+              <div className="text-giantRed">
+                {formik.errors.passwordRepeat}
+              </div>
+            ) : null}
+          </div>
           <input
             type="submit"
             value="Einloggen"
