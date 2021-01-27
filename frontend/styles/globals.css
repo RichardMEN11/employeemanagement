@@ -29,7 +29,8 @@ h5,
 input[type='submit'],
 p,
 a,
-button {
+button,
+label {
   font-family: roc-grotesk, sans-serif;
   font-weight: 500;
   font-style: normal;
@@ -40,4 +41,10 @@ span {
   font-family: roboto, sans-serif;
   font-weight: 400;
   font-style: normal;
+}
+
+input[type='checkbox'] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
