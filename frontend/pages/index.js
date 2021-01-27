@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useState } from 'react';
+import { useAuth } from '../contexts/auth';
 
 const validate = (values) => {
   const errors = {};
@@ -20,8 +21,7 @@ const validate = (values) => {
 };
 
 export default function Home() {
-  const [error, setError] = useState(false);
-  const router = useRouter();
+  const { login, error } = useAuth();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -33,14 +33,6 @@ export default function Home() {
     },
   });
 
-  const login = async (values) => {
-    const resp = await axios.post('http://localhost:3000/auth/login', values);
-    if (resp.status === 201) {
-      router.push('/dashboard');
-    } else if (resp.status === 404) {
-      setError(true);
-    }
-  };
   return (
     <div className="container w-screen h-screen flex justify-center items-center">
       <section className="flex-row">

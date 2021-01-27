@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { useFormik } from 'formik';
-import { useRouter } from 'next/router';
-import axios from 'axios';
+import { useAuth } from '../contexts/auth';
 
 const validate = (values) => {
   const errors = {};
@@ -30,8 +29,8 @@ const validate = (values) => {
   return errors;
 };
 
-const Register = () => {
-  const router = useRouter();
+const Register = (props) => {
+  const { register } = useAuth();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -44,18 +43,6 @@ const Register = () => {
       register(values);
     },
   });
-
-  const register = async (values) => {
-    const { email, company, password } = values;
-    const resp = await axios.post('http://localhost:3000/auth/register', {
-      email,
-      company,
-      password,
-    });
-    if (resp.status === 201) {
-      router.push('/');
-    }
-  };
 
   return (
     <div className="container w-screen h-screen flex justify-center items-center">
