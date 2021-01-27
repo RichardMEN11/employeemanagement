@@ -1,10 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { UserService } from 'src/user/user.service';
 import { AddEmployeeDto } from './dto/AddEmployeeDto';
 import { EmployeeRepository } from './employee.repository';
 
 @Injectable()
 export class EmployeesService {
-  constructor(public readonly employeeRepository: EmployeeRepository) {}
+  constructor(
+    public readonly employeeRepository: EmployeeRepository,
+    private readonly userService: UserService,
+  ) {}
 
   async addEmployee(addEmployeeDto: AddEmployeeDto): Promise<AddEmployeeDto> {
     const employee = this.employeeRepository.create(addEmployeeDto);
@@ -12,15 +16,13 @@ export class EmployeesService {
     return employee;
   }
 
-  async getAllEmployeesFromACompany(
-    company: string,
-  ): Promise<AddEmployeeDto[]> {
-    // TODO: Use relations
+  async getAllEmployeesFromACompany(id: string): Promise<AddEmployeeDto[]> {
+    const user = await this.userService.findOneById(id);
     const employees = await this.employeeRepository.find({
-      where: { company },
+      where: { company: user.company },
     });
 
-    if (!employees) {
+    if (!user || !employees) {
       throw new NotFoundException();
     }
     return employees;

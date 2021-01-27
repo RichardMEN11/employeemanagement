@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+
 import { AddEmployeeDto } from './dto/AddEmployeeDto';
 import { EmployeesService } from './employees.service';
 
@@ -17,9 +18,9 @@ import { EmployeesService } from './employees.service';
 export class EmployeesController {
   constructor(public readonly employeeService: EmployeesService) {}
 
-  @Get()
-  async getAllEmployees(@Body() { company }): Promise<AddEmployeeDto[]> {
-    return this.employeeService.getAllEmployeesFromACompany(company);
+  @Get(':id')
+  async getAllEmployees(@Param('id') id: string): Promise<AddEmployeeDto[]> {
+    return this.employeeService.getAllEmployeesFromACompany(id);
   }
 
   @Post()
@@ -29,7 +30,7 @@ export class EmployeesController {
     return this.employeeService.addEmployee(addEmployeeDto);
   }
 
-  @Get(':id')
+  @Get('/one/:id')
   async getEmployeeById(@Param('id') id: string): Promise<AddEmployeeDto> {
     return this.employeeService.getEmployeeById(id);
   }
