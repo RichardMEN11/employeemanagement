@@ -1,8 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import Router, { useRouter } from 'next/router';
-
-//api here is an axios instance which has the baseURL set according to the env.
+import { useRouter } from 'next/router';
 import api from '../services/Api';
 
 const AuthContext = createContext({});
@@ -10,9 +8,12 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
+  const [company, setCompany] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentPath, setCurrentPath] = useState('');
   const [error, setError] = useState(false);
+  const [employees, setEmployees] = useState([]);
+  const [token, setToken] = useState('');
 
   useEffect(() => {
     async function loadUserFromCookies() {
@@ -20,10 +21,15 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         api.defaults.headers.Authorization = `Bearer ${token}`;
         const data = parseToken(token);
+        setToken(token);
         setUser(data.id);
+        setCompany(data.company);
       }
       setCurrentPath(router.pathname);
       setLoading(false);
+      if (!employees) {
+        logout();
+      }
     }
     loadUserFromCookies();
   }, []);
@@ -45,6 +51,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     Cookies.remove('token');
     setUser(null);
+    setCompany(null);
     delete api.defaults.headers.Authorization;
     window.location.pathname = '/';
   };
@@ -56,17 +63,52 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const isAuthenticated = () => {
+    const token = Cookies.get('token');
+    if (token) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const getAllEmployees = async () => {
+    if (user) {
+      const resp = await api.get(`employees/${user}`);
+      if (resp.status === 200) {
+        setEmployees(resp.data);
+        return resp.data;
+      } else {
+        setError(true);
+        return [];
+      }
+    }
+  };
+
+  const addEmployee = async (data) => {
+    const resp = await api.post('employees', { ...data, company });
+    if (resp.status === 200) {
+      setEmployees(resp.data);
+    } else {
+      router.push('/dashboard');
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated: !!user,
+        isAuthenticated: isAuthenticated(),
         user,
         login,
         loading,
+        token,
         logout,
         register,
         error,
         currentPath,
+        getAllEmployees,
+        employees,
+        addEmployee,
       }}
     >
       {children}
