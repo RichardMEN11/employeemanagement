@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
   const { logout } = useAuth();
   return (
     <div>
-      <nav className="container p-3 bg-white flex justify-between items-center shadow-sm">
+      <nav className="container p-3 bg-white flex justify-between items-center shadow-sm mx-auto">
         <Link href="/dashboard">
           <Logo />
         </Link>

@@ -34,7 +34,7 @@ export default function Home() {
   });
 
   return (
-    <div className="container w-screen h-screen flex justify-center items-center">
+    <div className="container w-screen h-screen flex justify-center items-center mx-auto">
       <section className="flex-row">
         <h1 className="text-4xl text-center mb-10 text-nanoBlue">Willkommen</h1>
         {error ? (
